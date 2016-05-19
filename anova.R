@@ -16,6 +16,7 @@ anova_tukey_kw <- function(rawData, output_filepath)
   for (sample in unique.default(rawData$Sample))
   {
     # set up dataframes to hold output data to be dumped into csv 
+    resultsAnova <- data.frame()
     resultsTurkey <- data.frame()
     resultsKruscalWallis <- data.frame()
     
@@ -32,7 +33,13 @@ anova_tukey_kw <- function(rawData, output_filepath)
       
       # Runs ANOVA using peak area (into) as output variable and Group as input
       aov.out <- aov(into ~ Group, compoundSubset)
-      
+      Sum_Sq_Groups <- summary(aov.out)[[1]][[1,"Sum Sq"]]
+      Sum_Sq_Residuals <- summary(aov.out)[[1]][[2,"Sum Sq"]]
+      Var_exp_Groups <- Sum_Sq_Groups/sum(Sum_Sq_Groups, Sum_Sq_Residuals)*100
+      Var_exp_Residuals <- 100 - Var_exp_Groups
+      anova.row <- cbind(compound, summary(aov.out)[[1]][[1,"Df"]],summary(aov.out)[[1]][[1,"F value"]],summary(aov.out)[[1]][[1,"Pr(>F)"]],
+      round(Var_exp_Groups,1), round(Var_exp_Residuals,1))
+
       # Post Hoc test - Tukey HSD - default
       turkeyTemp <- TukeyHSD(aov.out)
       turkey.row <- cbind(rownames(turkeyTemp$Group), compound, turkeyTemp$Group)
@@ -42,15 +49,18 @@ anova_tukey_kw <- function(rawData, output_filepath)
       kw.row <- cbind(compound, kw.out$statistic, kw.out$parameter, kw.out$p.value)
       
       # Store results in dataframe outside loop
+      resultsAnova <- rbind(resultsAnova, anova.row)
       resultsTurkey <-  rbind(resultsTurkey, turkey.row)
       resultsKruscalWallis <- rbind(resultsKruscalWallis, kw.row)
     }
     
     # format output data
+    colnames(resultsAnova) <- c("compound", "df", "F value", "p-value", "Var. explained_groups (%)","Var. explained_residulas (%)")
     colnames(resultsKruscalWallis) <- c("compound", "chi-squared", "df", "p-value")
     colnames(resultsTurkey) <- c("comparison", "compound", "diff", "lwr", "upr", "p-adj")
     
     # write CSV
+    write.csv(resultsAnova, row.names = FALSE, file = paste0(sample, "-anova.csv"))
     write.csv(resultsKruscalWallis, row.names = FALSE, file = paste0(sample, "-kw.csv"))
     write.csv(resultsTurkey, row.names = FALSE, file = paste0(sample, "-tukey.csv"))
   }
