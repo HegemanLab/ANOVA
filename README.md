@@ -11,3 +11,6 @@ Takes a dataframe containing columns with the names "Sample", "Group", "compound
 * Run 88 to read in the input file
 * (Optional) Run 91 to check the input data that has been read in.
 * Run line 95 to generate output CSVs
+
+## Hegeman Lab - University of Minnesota Twin-Cities
+This code was developed for use in the Hegeman Lab at the University of Minnesota Twin-Cities. If you use this script in your research, please don't forget to site us. Additionally, if there are any questions about how to use this code, feel free to contact [Adrian Hegeman](hegem007@umn.edu). 
