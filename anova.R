@@ -1,4 +1,4 @@
-# Takes a dataframe containing columns with the names "Sample", "Group", "compound_names", and "into" (for peak area). 
+# Takes a dataframe containing columns with the names "Sample", "Group", "compound_names", and "into" (for peak area or other). 
 # Runs ANOVA and outputs the results of Tukey Test and Kruscal-Wallis test in csv by sample and test. 
 # Each sample will generate a KW and Tukey file. This function does not return an value. 
 # Function also takes an optional parameter for an output_filepath. 
