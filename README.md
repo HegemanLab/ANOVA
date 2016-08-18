@@ -1,6 +1,6 @@
 # ANOVA
 ## Functionality
-Takes a dataframe containing columns with the names "Sample", "Group", "compound_names", and "into" (for peak area). Runs ANOVA and outputs the results of Tukey Test and Kruscal-Wallis test in csv by sample and test. Each sample will generate a KW and Tukey file. This function does not return an value. Function also takes an optional parameter for an output_filepath. By default the output will be generated in the same folder as the input. 
+Takes a dataframe containing columns with the names "Sample", "Group", "compound_names", and "into" (for peak area in this example). Runs ANOVA and outputs the results of Tukey Test and Kruscal-Wallis test in csv by sample and test. Each sample will generate a KW and Tukey file. This function does not return an value. Function also takes an optional parameter for an output_filepath. By default the output will be generated in the same folder as the input. 
 
 ## Usage
 * Update input CSV and save it. 
